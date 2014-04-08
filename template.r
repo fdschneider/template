@@ -1,52 +1,72 @@
-# random scatter plot
-
-x <- runif(30, 0.2, 0.9 )
-y <- 0.5 + x*3.1 + rnorm(30, 0, 0.2)
-
-plot(y ~ x)
-
-
 ## template function
 ## for now just returning an object of class "template". 
 
-template <- function(journal="nature", bty="o", verbose=TRUE) {
+template <- function(journal="nature", ..., verbose=TRUE) {
 	
 	# Match with a vector of journal 
  	journals <- c("nature", "science", "ecologyletters")
 	w <- charmatch(journal,journals)
 	if (is.na(w)) stop("No match for journal found")
-	
+		
 	# Then we create our object whode class is "template"
 	if (w==1){
-		out <- par(xaxs="i", yaxs="i", bty=bty, bg=2)
+		out <- par(no.readonly=T)
+		out$xaxs="i"
+		out$yaxs="i"
+		out$bg=4
 	}
 	
 	if (w==2){
-		out <- par(xaxs="i", yaxs="i", bty=bty)
+		out <- par(no.readonly=T)
+		out$xaxs="i"
+		out$yaxs="i"
+		out$bg=4
 	}
 	
 	if (w==3){
-		out <- par(xaxs="i", yaxs="i", bty=bty)
+		out <- par(xaxs="i", yaxs="i",  args)
 	}
- 	#out <- list(...)
-  	class(out) <- "template"
+ 	
+ 	## any argument of par, and other can be integrated using ."..."
+	args <- list(...)
 	
-	
+	if (length(args)>0){
+		ext <- charmatch(names(args), names(out))
+		out[ext] <- args
+		cat("ocucu")
+		print(ext)
+	}
+ 		
 	if (verbose==TRUE){
 		cat(paste(" --> Journal's template selected:", journals[w],"\n"))
 		cat(" --> Plot is ready")	
 	}
 	
+	par(out)
+	class(out) <- "template"
 	return(out)
 	
 }
-
 
 # convertor 
 
 as.template <- function(...){
   
 }
+
+# application
+example.template <- function(){
+	# random scatter plot
+	x <- runif(30, 0.2, 0.9)
+	y <- 0.5 + x*3.1 + rnorm(30, 0, 0.2)
+	plot(y ~ x)
+	# Unsing template nature and extra arguments
+	ex <- template(journal="nat", bty = "l", cex.lab = 2)
+	plot(y ~ x)
+	print(ex)
+}
+
+
 
 # I had a different way in mind to include the journal styles. If we keep that function rather neutral,
 # it would be possible to call it later with a particular function par.template(). 
@@ -99,9 +119,7 @@ own <- template(
   
 
 par.template(own)
-
 plot(y ~ x)
 
 par.template(own, journal = science)
-
 plot(y ~ x)
