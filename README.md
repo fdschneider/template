@@ -45,6 +45,7 @@ The problem I encountered is that the par is reset to default each time a new wi
 
 ### `pretty()`
 
+I guess what we need is to collect a list of all *possible* graphical parameters for all devices and then redistribute the parameters stored in the template to those places. 
 
 ## Links
 
@@ -54,4 +55,4 @@ The problem I encountered is that the par is reset to default each time a new wi
 [grid](https://www.stat.auckland.ac.nz/~paul/grid/grid.html) by Paul Murell
 
 
-
+I found [this](https://stackoverflow.com/questions/13811501/r-merge-lists-with-overwrite-and-recursion) interesting post on how to merge lists. 
