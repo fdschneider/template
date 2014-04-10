@@ -45,6 +45,17 @@ collection.template <- function(){
 	
 }
 
+gettemplates <- function() {
+  objects <-  ls( envir = .GlobalEnv)[sapply(ls(envir = .GlobalEnv), function(x) eval(parse(text=paste("class(", x, ")", sep = ""))  ) ) == "template"]
+  names <- sapply(objects, function(x) eval(parse(text=paste(x, "$journal"))) )
+  authors <- sapply(objects, function(x) eval(parse(text=paste(x, "$author"))) )
+
+  return( data.frame(objects = objects, names = names, authors = authors ) )
+} 
+
+gettemplates()$objects
+
+
 # convertor 
 as.template <- function(...){
   
