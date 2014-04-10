@@ -67,13 +67,13 @@ gauthor <- function(x) {return(x$authors)}
 
 
 #
-par.template <- function(x, journal = NULL, verbose=TRUE) {
+par.template <- function(x=NULL, journal = NULL, verbose=TRUE) {
 
 	# We must find a way to easily stock templates
 	if (!is.null(journal)){
 		Template <- collection.template()
  		journals <- unlist(lapply(Template, gjournal))
-		w <- charmatch(journal,journals)
+		w <- charmatch(tolower(journal),tolower(journals))
 		if (is.na(w)) stop(" --> The journal style that you specified does not exist.")
 		journal <- Template[[w]]
 		print(journal)
@@ -120,7 +120,7 @@ example.template <- function(){
 	par.template(own)
 	plot(y ~ x)
 
-	par.template(own, journal = "Science")
+	par.template(journal = "scien")
 	plot(y ~ x)
 
 }
